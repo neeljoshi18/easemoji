@@ -1,0 +1,36 @@
+# OS X
+.DS_Store
+
+# Xcode
+build/
+DerivedData/
+*.pbxuser
+*.mode1v3
+*.mode2v3
+*.perspectivev3
+xcuserdata/
+*.xcworkspace
+/*/xcuserdata/
+*.xcuserstate
+*.xcresult
+
+# Python
+.venv/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# PyTorch and Machine Learning
+*.pth
+*.pt
+runs/
+.tensorboard/
+
+# Large Datasets
+raf-db-dataset/
+
+# CoreML models (built)
+*.mlpackage/
+*.mlmodel
+*.mlmodelc
