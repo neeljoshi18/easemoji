@@ -1,0 +1,110 @@
+name: emojeasy
+options:
+  bundleIdPrefix: com.emojeasy
+  deploymentTarget:
+    iOS: "18.0"
+  xcodeVersion: "16.0"
+  createIntermediateGroups: true
+  defaultConfig: Debug
+
+settings:
+  base:
+    SWIFT_VERSION: "6.0"
+    IPHONEOS_DEPLOYMENT_TARGET: "18.0"
+    TARGETED_DEVICE_FAMILY: 1
+
+targets:
+  emojeasy:
+    type: application
+    platform: iOS
+    sources:
+      - path: emojeasy
+    info:
+      path: emojeasy/Info.plist
+      properties:
+        CFBundleURLTypes:
+          - CFBundleURLSchemes:
+              - emojeasy
+            CFBundleURLName: com.emojeasy.app
+        LSRequiresIPhoneOS: true
+        NSCameraUsageDescription: "Emojeasy uses the camera to read your facial expressions and suggest emoji."
+        UIApplicationSceneManifest:
+          UIApplicationSupportsMultipleScenes: false
+        UILaunchScreen:
+          UIColorName: systemBackground
+        UISupportedInterfaceOrientations:
+          - UIInterfaceOrientationPortrait
+          - UIInterfaceOrientationLandscapeLeft
+          - UIInterfaceOrientationLandscapeRight
+          - UIInterfaceOrientationPortraitUpsideDown
+        UIRequiredDeviceCapabilities:
+          - arkit
+          - front-facing-camera
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.emojeasy.app
+        INFOPLIST_FILE: emojeasy/Info.plist
+        GENERATE_INFOPLIST_FILE: NO
+        CODE_SIGN_ENTITLEMENTS: emojeasy/EmojeasyApp.entitlements
+        PRODUCT_NAME: Emojeasy
+        ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
+    dependencies:
+      - target: EmojeasyMessages
+      - target: EmojeasyKeyboard
+
+  EmojeasyMessages:
+    type: app-extension
+    platform: iOS
+    sources:
+      - path: EmojeasyMessages
+    info:
+      path: EmojeasyMessages/Info.plist
+      properties:
+        CFBundleDisplayName: Emojeasy
+        CFBundlePackageType: XPC!
+        NSCameraUsageDescription: "Emojeasy requires camera access to read your facial expressions."
+        NSExtension:
+          NSExtensionPointIdentifier: com.apple.message-payload-provider
+          NSExtensionPrincipalClass: "$(PRODUCT_MODULE_NAME).MessagesViewController"
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.emojeasy.app.messages
+        INFOPLIST_FILE: EmojeasyMessages/Info.plist
+        GENERATE_INFOPLIST_FILE: NO
+        PRODUCT_NAME: EmojeasyMessages
+        PRODUCT_TYPE: com.apple.product-type.app-extension.messages
+        LD_RUNPATH_SEARCH_PATHS:
+          - "$(inherited)"
+          - "@executable_path/Frameworks"
+          - "@executable_path/../../Frameworks"
+
+  EmojeasyKeyboard:
+    type: app-extension
+    platform: iOS
+    sources:
+      - path: EmojeasyKeyboard
+    info:
+      path: EmojeasyKeyboard/Info.plist
+      properties:
+        CFBundleDisplayName: EmojeasyKeyboard
+        CFBundlePackageType: XPC!
+        NSExtension:
+          NSExtensionAttributes:
+            IsASCIICapable: false
+            PrefersRightToLeft: false
+            PrimaryLanguage: en-US
+            RequestsOpenAccess: true
+          NSExtensionPointIdentifier: com.apple.keyboard-service
+          NSExtensionPrincipalClass: "$(PRODUCT_MODULE_NAME).KeyboardViewController"
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.emojeasy.app.keyboard
+        PRODUCT_NAME: EmojeasyKeyboard
+        PRODUCT_TYPE: com.apple.product-type.app-extension
+        INFOPLIST_FILE: EmojeasyKeyboard/Info.plist
+        GENERATE_INFOPLIST_FILE: NO
+        CODE_SIGN_ENTITLEMENTS: EmojeasyKeyboard/EmojeasyKeyboard.entitlements
+        LD_RUNPATH_SEARCH_PATHS:
+          - "$(inherited)"
+          - "@executable_path/Frameworks"
+          - "@executable_path/../../Frameworks"
